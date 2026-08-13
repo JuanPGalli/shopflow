@@ -1,0 +1,22 @@
+export const ADD_TO_CART = 'ADD_TO_CART';
+export const REMOVE_TO_CART = 'REMOVE_TO_CART';
+export const ADD_ONE_TO_CART = 'ADD_ONE_TO_CART';
+export const REMOVE_ONE_TO_CART = 'REMOVE_ONE_TO_CART';
+export const GET_PRODUCT_BY_NAME = 'GET_PRODUCT_BY_NAME';
+export const CREATE_ORDER = 'CREATE_ORDER';
+export const GET_ALL_BUYS = 'GET_ALL_BUYS';
+export const GET_USER_DATA = 'GET_USER_DATA';
+export const HANDLE_USER_LOGOUT = 'HANDLE_USER_LOGOUT';
+export const CLEAR_CART = 'CLEAR_CART';
+export const SET_LOADING = 'SET_LOADING';
+export const CLEAR_LOADING = 'CLEAR_LOADING';
+
+export const GET_PRODUCT = 'GET_PRODUCT';
+export const ORDEN_PRECIO = 'ORDEN_PRECIO';
+export const GET_CATEG = 'GET_CATEG';
+export const FILTER_BY_CATEG = 'FILTER_BY_CATEG';
+export const FILTROS_PRECIO = 'FILTROS_PRECIO';
+export const RESET = 'RESET';
+export const CREATE_REVIEW = 'CREATE_REVIEW';
+export const GET_REVIEWS = 'GET_REVIEWS';
+export const GET_USERS = 'GET_USERS';
