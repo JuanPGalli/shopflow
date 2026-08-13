@@ -1,7 +1,8 @@
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
 
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME, DB_DEPLOY, DATABASE_URL } = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME, DB_DEPLOY, DATABASE_URL } =
+  process.env;
 
 const isDeployed = DB_DEPLOY === 'true';
 
@@ -11,11 +12,14 @@ const sequelize = DATABASE_URL
       native: false,
       dialectOptions: isDeployed ? { ssl: { require: true, rejectUnauthorized: false } } : {},
     })
-  : new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
-      logging: false,
-      native: false,
-      dialectOptions: isDeployed ? { ssl: { require: true, rejectUnauthorized: false } } : {},
-    });
+  : new Sequelize(
+      `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
+      {
+        logging: false,
+        native: false,
+        dialectOptions: isDeployed ? { ssl: { require: true, rejectUnauthorized: false } } : {},
+      },
+    );
 
 // Explicit model registration. (The previous version loaded every file
 // in /models dynamically via fs.readdirSync and then re-cased every

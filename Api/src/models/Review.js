@@ -1,7 +1,7 @@
-const { DataTypes, UUIDV4 } = require('sequelize');
+const { DataTypes, UUIDV4 } = require("sequelize");
 
 module.exports = (sequelize) => {
-  return sequelize.define('Review', {
+  return sequelize.define("Review", {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -9,16 +9,15 @@ module.exports = (sequelize) => {
     },
     rating: {
       type: DataTypes.REAL,
-      validate: {
-        min: 0,
-        max: 10,
-      },
+        validate: {
+          min: 0,
+          max: 10
+        },
       allowNull: false,
     },
-
+    
     comment: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-  });
-};
+        type: DataTypes.STRING,
+        allowNull: true,
+    },   
+})};

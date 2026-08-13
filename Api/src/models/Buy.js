@@ -1,7 +1,7 @@
-const { DataTypes, UUIDV4 } = require('sequelize');
+const { DataTypes, UUIDV4 } = require("sequelize");
 
 module.exports = (sequelize) => {
-  return sequelize.define('Buys', {
+  return sequelize.define("Buys", {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
       // rows — the frontend reads it back as buy.products.items /
       // buy.products.statusDetail.
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: false
     },
     mp_payment_id: {
       // Mercado Pago payment id, used by the webhook to avoid
