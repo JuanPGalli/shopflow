@@ -17,11 +17,13 @@ const { getAllreviews, postreviews, updatereviews,  getUserreviews } = require("
       ProductId,
       comment,
       rating,
-      emailUser      
     } = req.body;
-  
+    // Identity comes from the verified Firebase token (see
+    // middleware/verifyToken.js), never from the request body —
+    // otherwise anyone could submit a review as any email.
+    const emailUser = req.user.email;
+
     try {
-      //const userId = await getUserByEmail(emailUser)
       await postreviews(ProductId, comment, rating, emailUser);
 
       res.status(200).json(`The Review was successfully created`);
@@ -34,14 +36,15 @@ const { getAllreviews, postreviews, updatereviews,  getUserreviews } = require("
   const putreviewHandler = async (req, res) => {
     const { id } = req.params;
     const { rating, comment } = req.body;
-  
+
     try {
-      const updated = await updatereviews(id, rating, comment);
-  
+      const updated = await updatereviews(id, rating, comment, req.user.email);
+
       res.status(200).json(updated);
     } catch (error) {
       console.log(error)
-      res.status(400).json({ error: error.message });
+      const status = error.message === 'Forbidden' ? 403 : 400;
+      res.status(status).json({ error: error.message });
     }
   };  
  

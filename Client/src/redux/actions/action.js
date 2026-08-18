@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { auth } from '../../firebase/firebase.config';
 import {
   HANDLE_USER_LOGOUT,
   GET_USER_DATA,
@@ -29,6 +30,20 @@ import {
 axios.defaults.baseURL = import.meta.env.DEV
   ? 'http://localhost:3001'
   : 'https://help-community-production.up.railway.app';
+
+// Attach the caller's Firebase ID token to every request, so the
+// backend's verifyToken middleware can identify who's actually
+// asking (see Api/src/middleware/verifyToken.js). Routes that don't
+// require auth simply ignore the header, so this is safe to send
+// unconditionally.
+axios.interceptors.request.use(async (config) => {
+  const currentUser = auth.currentUser;
+  if (currentUser) {
+    const token = await currentUser.getIdToken();
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 export const getReviews = () => {
   return async function (dispatch) {

@@ -52,6 +52,20 @@ const postUserHandler = async (req, res) => {
 const putUserHandler = async (req, res) => {
   const { id } = req.params;
   const { userState, userAdmin, userSuperadmin } = req.body;
+
+  // Only a superadmin may grant/revoke superadmin or admin rights.
+  // A regular admin (verified by requireAdmin upstream) may only
+  // touch userState (ban/unban) — otherwise any admin could promote
+  // themselves or anyone else to superadmin.
+  if (
+    (userAdmin !== undefined || userSuperadmin !== undefined) &&
+    !req.callerUser?.userSuperadmin
+  ) {
+    return res.status(403).json({
+      error: 'Only a superadmin can change admin/superadmin privileges',
+    });
+  }
+
   try {
     const updatedUser = await updateUser(id, userState, userAdmin, userSuperadmin);
     if (updatedUser) {

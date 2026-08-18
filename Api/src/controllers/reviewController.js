@@ -67,11 +67,20 @@ const postreviews = async (
   return newReview;
 };
 
-const updatereviews = async (id, rating, comment) => {
+const updatereviews = async (id, rating, comment, callerEmail) => {
     const review = await Review.findByPk(id);
 
     if (!review) {
       throw new Error(`Review with ID: ${id} not found`);
+    }
+
+    const callerId = await getUserByEmail(callerEmail);
+    if (!callerId || callerId !== review.userId) {
+      // getUserByEmail returning a different id than the review's
+      // owner means this caller didn't write this review — refuse the
+      // edit rather than letting anyone update anyone else's review
+      // just by knowing its id.
+      throw new Error("Forbidden");
     }
 
     review.rating = rating;
