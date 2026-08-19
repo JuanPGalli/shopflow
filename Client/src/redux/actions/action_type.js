@@ -17,6 +17,5 @@ export const GET_CATEG = 'GET_CATEG';
 export const FILTER_BY_CATEG = 'FILTER_BY_CATEG';
 export const FILTROS_PRECIO = 'FILTROS_PRECIO';
 export const RESET = 'RESET';
-export const CREATE_REVIEW = 'CREATE_REVIEW';
 export const GET_REVIEWS = 'GET_REVIEWS';
 export const GET_USERS = 'GET_USERS';

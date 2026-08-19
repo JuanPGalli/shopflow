@@ -7,7 +7,6 @@ import {
   FILTROS_PRECIO,
   RESET,
   GET_USERS,
-  CREATE_REVIEW,
   GET_REVIEWS,
   HANDLE_USER_LOGOUT,
   GET_USER_DATA,
@@ -67,12 +66,7 @@ const reducer = (state = initialState, action) => {
         // // productsFiltered: action.payload.products,
         filters: false, // Asegúrate de restablecer el estado de los filtros
       };
-    case CREATE_REVIEW:
-      return {
-        ...state,
-        review: action.payload,
-      };
-    case FILTER_BY_CATEG:
+    case FILTER_BY_CATEG: {
       const filteredByCateg =
         action.payload === 'Todos'
           ? state.productsCopy // Restaurar la copia original de productos si se selecciona "Todos"
@@ -84,10 +78,11 @@ const reducer = (state = initialState, action) => {
         productsFiltered: filteredByCateg,
         filters: action.payload !== 'Todos', // Establecer filter en true solo si no es ""
       };
+    }
 
     case ORDEN_PRECIO:
       switch (action.payload) {
-        case 'precioMayor':
+        case 'precioMayor': {
           let may = [];
           if (state.filters) {
             may = [...state.productsFiltered].sort((prev, next) => {
@@ -114,7 +109,8 @@ const reducer = (state = initialState, action) => {
               filters: true,
             };
           }
-        case 'precioMenor':
+        }
+        case 'precioMenor': {
           let men = [];
           if (state.filters) {
             men = [...state.productsFiltered].sort((prev, next) => {
@@ -141,13 +137,14 @@ const reducer = (state = initialState, action) => {
               filters: true,
             };
           }
+        }
         default:
           return state;
       }
 
     case FILTROS_PRECIO:
       switch (action.payload) {
-        case 'menor100':
+        case 'menor100': {
           let menorCien = [];
           if (state.filters) {
             menorCien = [...state.productsFiltered].filter((prod) => prod.price < 100);
@@ -166,7 +163,8 @@ const reducer = (state = initialState, action) => {
               filters: true,
             };
           }
-        case 'menor500':
+        }
+        case 'menor500': {
           let menorQuini = [];
           if (state.filters) {
             menorQuini = [...state.productsFiltered].filter((prod) => prod.price < 500);
@@ -185,7 +183,8 @@ const reducer = (state = initialState, action) => {
               filters: true,
             };
           }
-        case 'menor1000':
+        }
+        case 'menor1000': {
           let menorMil = [];
           if (state.filters) {
             menorMil = [...state.productsFiltered].filter((prod) => prod.price < 1000);
@@ -204,7 +203,8 @@ const reducer = (state = initialState, action) => {
               filters: true,
             };
           }
-        case 'mayor1000':
+        }
+        case 'mayor1000': {
           let mayorMil = [];
           if (state.filters) {
             mayorMil = [...state.productsFiltered].filter((prod) => prod.price > 1000);
@@ -223,10 +223,11 @@ const reducer = (state = initialState, action) => {
               filters: true,
             };
           }
+        }
         default:
           return state;
       }
-    case ADD_TO_CART:
+    case ADD_TO_CART: {
       const { product, quantity } = action.payload;
       const exisingItem = state.cartShop.find((item) => item.product.id === product.id);
 
@@ -258,14 +259,16 @@ const reducer = (state = initialState, action) => {
           ],
         };
       }
-    case REMOVE_TO_CART:
+    }
+    case REMOVE_TO_CART: {
       const idToRemove = action.payload;
       const filteredCart = state.cartShop.filter((item) => item.product.id !== idToRemove);
       return {
         ...state,
         cartShop: filteredCart,
       };
-    case ADD_ONE_TO_CART:
+    }
+    case ADD_ONE_TO_CART: {
       const productIdToAdd = action.payload;
       const updtedCart = state.cartShop.map((item) => {
         if (item.product.id === productIdToAdd) {
@@ -285,8 +288,9 @@ const reducer = (state = initialState, action) => {
         ...state,
         cartShop: calculateTotalPrice,
       };
+    }
 
-    case REMOVE_ONE_TO_CART:
+    case REMOVE_ONE_TO_CART: {
       const productIdToRemov = action.payload;
       const updtedRemoveCart = state.cartShop.map((item) => {
         if (item.product.id === productIdToRemov && item.quantity > 1) {
@@ -302,6 +306,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         cartShop: updtedRemoveCart,
       };
+    }
     case GET_PRODUCT_BY_NAME:
       return {
         ...state,
