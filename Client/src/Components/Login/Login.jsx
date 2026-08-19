@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import PropTypes from 'prop-types';
 import styles from './Login.module.css';
 import { useAuth } from '../../context/AuthContext';
 import { useState } from 'react';
@@ -89,28 +89,34 @@ const Login = ({ closeLogin, showNotification }) => {
     e.preventDefault();
 
     try {
-      let validateState = false;
+      const existingUser = await dispatch(getUserByEmail(email));
 
-      await dispatch(getUserByEmail(email)).then((response) => {
-        console.log('entro');
-        console.log(response.userState);
-        validateState = response.userState;
-      });
+      // Only block if we actually found an account and it's disabled.
+      // A null/missing result just means the account doesn't exist yet —
+      // let Firebase's own auth error handle that below, instead of
+      // wrongly telling the user their account was deactivated.
 
-      if (validateState) {
-        await auth.login(email, password);
-        await dispatch(getUserByEmail(email));
-
-        setTimeout(showNotification('logSuccess'), 2000);
-        closeLogin();
-      } else {
+      if (existingUser && existingUser.userState === false) {
         notify('blockedUser');
-        throw new Error('El usuario al que intentas entrar a sido desactivado');
+        return;
       }
+
+      await auth.login(email, password);
+      await dispatch(getUserByEmail(email));
+
+      showNotification('logSuccess');
+      closeLogin();
     } catch (error) {
-      if (error.code === 'auth/invalid-login-credentials') {
+      const wrongCredentialsCode = [
+        'auth/invalid-login-credentials',
+        'auth/invalid credential',
+        'auth/wrong-password',
+        'auth/user-not-found',
+      ];
+
+      if (wrongCredentialsCode.includes(error.code)) {
         // Manejar intento de inicio de sesión con contraseña incorrecta
-        setErrors({ ...errors, password: 'Contraseña incorrecta. Inténtalo de nuevo.' });
+        setErrors((prev) => ({ ...prev, password: 'Contraseña incorrecta. Inténtalo de nuevo.' }));
       } else {
         // Otro tipo de error, como cuenta inactiva, etc.
         notify('logError');
@@ -123,30 +129,38 @@ const Login = ({ closeLogin, showNotification }) => {
   //Manejo de logueo/registro con google
   const handleGoogle = async (e) => {
     e.preventDefault();
-    const result = await auth.loginWithGoogle();
-    showNotification('googleSuccess');
 
     try {
-      const { displayName } = result.user;
-      const { email } = result.user;
-      const { photoURL } = result.user;
+      const result = await auth.loginWithGoogle();
+      const { displayName, email, photoURL } = result.user;
+
       const userToPost = {
         name: displayName,
-        email: email,
-        image: photoURL
-          ? photoURL
-          : 'https://res.cloudinary.com/dauipbxlu/image/upload/v1697131213/uprwps0euakltzyee3zj.jpg',
+        email,
+        image:
+          photoURL ||
+          'https://res.cloudinary.com/dauipbxlu/image/upload/v1697131213/uprwps0euakltzyee3zj.jpg',
       };
-      console.log(userToPost);
 
-      //TODO          Descomentar el dispatch cuando la funcion post este lista para recibir usuarios iguales
       await dispatch(postUser(userToPost));
       await dispatch(getUserByEmail(userToPost.email));
-    } catch (error) {
-      setErrors({ ...errors, other: error.message });
-    }
 
-    closeLogin();
+      // Only fires now that we know the login actually succeeded.
+      showNotification('googleSuccess');
+      closeLogin();
+    } catch (error) {
+      // The user just closing the Google popup isn't a real error —
+      // don't show a scary toast for it.
+      const userCancelled =
+        error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request';
+
+      if (!userCancelled) {
+        notify('logError');
+        console.error('Google login failed:', error);
+      }
+      setErrors((prev) => ({ ...prev, other: error.message }));
+      // Modal stays open on failure so the user can see the error and retry.
+    }
   };
 
   const disableRegister = () => {
@@ -336,3 +350,8 @@ const Login = ({ closeLogin, showNotification }) => {
 };
 
 export default Login;
+
+Login.propTypes = {
+  closeLogin: PropTypes.func.isRequired,
+  showNotification: PropTypes.func.isRequired,
+};
