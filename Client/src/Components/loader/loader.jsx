@@ -1,23 +1,10 @@
-import './loader.css';
+import styles from './loader.module.css';
 
 export default function Loader() {
   return (
-    <div>
-      <div className='showbox'>
-        <div className='loader'>
-          <svg className='circular' viewBox='25 25 50 50'>
-            <circle
-              className='path'
-              cx='50'
-              cy='50'
-              r='20'
-              fill='none'
-              strokeWidth='2'
-              strokeMiterlimit='10'
-            />
-          </svg>
-        </div>
-      </div>
+    <div className={styles.loaderWrapper} role='status' aria-live='polite'>
+      <div className={styles.spinner} />
+      <span className={styles.srOnly}>Cargando...</span>
     </div>
   );
 }
