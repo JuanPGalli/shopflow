@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createOrder,
   getProductByName,
   getReviews,
-  getAllBuys,
   getAllBuysForUser,
 } from '../../redux/actions/action';
 import styles from './Detail_product.module.css';
@@ -20,7 +19,8 @@ export const DetailProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const detailProduct = useSelector((state) => state.detailProduct);
-  const review = useSelector((state) => state.review) || [];
+  const reviewState = useSelector((state) => state.review);
+  const review = useMemo(() => reviewState || [], [reviewState]);
   const auth = useAuth();
   const email = auth.user?.email;
 
@@ -169,14 +169,6 @@ export const DetailProduct = () => {
     const value = event.target.value; //valor ingresado
     setForm({ ...form, [property]: value });
 
-    if (property === 'rating') {
-      if (value < 1 || value > 10) {
-        setRatingError('El puntaje debe estar entre 1 y 10');
-      } else {
-        setRatingError('');
-      }
-    }
-
     if (property === 'comment') {
       if (value.length > 250) {
         setCommentError('El comentario no debe exceder los 250 caracteres');
@@ -271,7 +263,7 @@ export const DetailProduct = () => {
     dispatch(createOrder([items, emailObj]));
   };
   const handleEditButton = () => {
-    navigate(`/admin/create/product/${product.name}`);
+    navigate(`/products/create/${product.name}`);
   };
 
   const openReviewPopup = () => {
@@ -284,6 +276,11 @@ export const DetailProduct = () => {
 
   const handlePuntajeChange = (newPuntaje) => {
     setForm({ ...form, rating: newPuntaje });
+    if (newPuntaje < 1 || newPuntaje > 5) {
+      setRatingError('El puntaje debe estar entre 1 y 5');
+    } else {
+      setRatingError('');
+    }
   };
 
   const submitReview = async (event) => {
@@ -337,7 +334,11 @@ export const DetailProduct = () => {
               <div className={`${styles.column} ${styles.infoProduct}`}>
                 <div className={styles.stockEdit}>
                   <p>Stock: {product?.stock}</p>
-                  {/* { isAdmin === true ? <button className={styles.editButton} onClick={handleEditButton} >Editar<span className="material-icons">edit</span></button> : null} */}
+                  {isAdmin && (
+                    <button className={styles.editButton} onClick={handleEditButton}>
+                      Editar
+                    </button>
+                  )}
                 </div>
 
                 <h1>{product?.name}</h1>
@@ -376,6 +377,9 @@ export const DetailProduct = () => {
                 <div className={styles.modalBackground}>
                   <div className={styles.reviewPopup}>
                     <h2 className={styles.queOpinas}>¿Que opinas sobre este producto?</h2>
+                    {displayName && (
+                      <p className={styles.saludoReview}>Hola, {displayName.split(' ')[0]}</p>
+                    )}
                     <span className={styles.productName}>{name}</span>
                     <div className={styles.imgReviewCont}>
                       <img className={styles.imgReview} src={product?.image} alt='' />
@@ -384,16 +388,23 @@ export const DetailProduct = () => {
                       <h2 className={styles.nombreRev}>Puntaje: </h2>
                       <p className={styles.numeros}>{form.rating} / 5</p>
                       {/* <input disabled={true} className={style.nombreRev} type="text" value={form.nombre} onChange={changeHandler} name="nombre" placeholder={displayName} /> */}
-                      <input
-                        type='range'
-                        min='1'
-                        max='10'
-                        step='0.1' // Para permitir decimales
-                        value={form.rating}
-                        onChange={changeHandler}
-                        name='rating'
-                        className={`${styles.puntajeRange} ${styles.customRange}`}
-                      />
+                      <div className={styles.starsCont}>
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <span
+                            key={star}
+                            role='button'
+                            tabIndex={0}
+                            aria-label={`${star} de 5`}
+                            className={`${styles.star} ${form.rating >= star ? styles.starFilled : ''}`}
+                            onClick={() => handlePuntajeChange(star)}
+                            onKeyDown={(e) =>
+                              (e.key === 'Enter' || e.key === ' ') && handlePuntajeChange(star)
+                            }
+                          >
+                            ★
+                          </span>
+                        ))}
+                      </div>
                       {ratingError && <span className={styles.error}>{ratingError}</span>}
                     </div>
                     <textarea

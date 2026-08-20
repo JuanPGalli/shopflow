@@ -55,7 +55,7 @@
 .imgCont{
     width: 50%;
     height: 380px;
-    
+
 }
 .imgCont img{
     justify-content: center;
@@ -78,16 +78,16 @@
 }
 .price{
     font-size: 20px;
-    
+
 }
 .buyCont{
-    
+
     display: flex;
     justify-content: center;
     width: 100%;
     gap: 60px;
     margin-top: 50px;
-    
+
 }
 
 .btnBuy{
@@ -127,7 +127,7 @@
 
 .btnAddToCart:hover{
     background-color: #8aaee9ee;
-    
+
 }
 
 .contTitulos{
@@ -275,7 +275,7 @@
     display: flex;
     flex-direction: row;
     gap: 5%;
-    
+
   }
 
   .nombreRev {
@@ -438,7 +438,7 @@
   margin-left: 13%;
   margin-top: 1.2%;
   background-color: #007bff;
-  
+
 }
 
 .puntajeRange:hover {
@@ -517,3 +517,31 @@ cursor: pointer;
     text-align: center;
     width: 30em;
   }
+
+/* Add star styles */
+
+.starsCont {
+  display: flex;
+  gap: 6px;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.star {
+  color: rgba(0, 0, 0, 0.2);
+  transition: color 0.15s ease, transform 0.1s ease;
+}
+
+.star:hover {
+  transform: scale(1.15);
+}
+
+.starFilled {
+  color: rgb(9, 110, 188);
+}
+
+.saludoReview {
+  color: rgba(0, 0, 0, 0.6);
+  margin: 0 0 8px;
+  font-size: 14px;
+}
