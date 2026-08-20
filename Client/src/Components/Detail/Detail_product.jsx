@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   createOrder,
   getProductByName,
-  createReview,
   getReviews,
   getAllBuys,
   getAllBuysForUser,
@@ -40,11 +39,7 @@ export const DetailProduct = () => {
   const [loading, setLoading] = useState(true);
   const [isReviewPopupOpen, setReviewPopupOpen] = useState(false);
   const [reviews, setReviews] = useState([]);
-  const [users, setUsers] = useState([]);
-
-  const [userData, setUserData] = useState([]);
   const [isReviewButtonEnabled, setReviewButtonEnabled] = useState(false);
-
   const [buys, setBuys] = useState([]);
   const [ratingError, setRatingError] = useState('');
   const [commentError, setCommentError] = useState('');
@@ -80,22 +75,9 @@ export const DetailProduct = () => {
     fetchData();
   }, [/* dispatch, */ email]);
 
-  useEffect(() => {
-    // Para que al enviar email como parametro, me devuelva la info del usuario, incluido el userId
-    axios
-      .get('/user/email', {
-        params: {
-          email: email, // Correo electrónico que deseas buscar
-        },
-      })
-      .then((response) => {
-        // Actualiza el estado con la info del usuario
-        setUserData(response.data);
-      })
-      .catch((error) => {
-        console.error('Error al obtener la info:', error);
-      });
-  }, []);
+  // currentUser (from Redux, kept in sync by the getUserByEmail effect
+  // above whenever `email` changes) already has everything this used
+  // to duplicate with a raw, mistimed axios call.
 
   const displayName = auth.user?.displayName;
   // const firstName = displayName.split(' ')[0];
@@ -234,26 +216,36 @@ export const DetailProduct = () => {
   };
 
   useEffect(() => {
-    if (buys && buys.length > 0 && userData && userData.length > 0) {
+    if (buys && buys.length > 0 && currentUser?.id) {
       const allMatchProductId = buys.some((buy) => {
+        // buy.products is stored as a JSON string on the backend
+        // (Buys.products is a TEXT column) — it has to be parsed
+        // before reading .items / .statusDetail off of it.
+        let purchase;
+        try {
+          purchase = typeof buy.products === 'string' ? JSON.parse(buy.products) : buy.products;
+        } catch {
+          return false;
+        }
+        const items = purchase?.items || [];
+        const wasDelivered = !purchase?.statusDetail || purchase.statusDetail === 'accredited';
         return (
-          buy.products.items &&
-          buy.products.items.some((item) => item.id === product?.id) &&
-          buy.products.statusDetail === 'accredited' &&
-          buy.userId === userData[0].id
+          wasDelivered &&
+          items.some((item) => item.id === product?.id) &&
+          buy.userId === currentUser.id
         );
       });
 
       // Verifica si el usuario ya ha revisado el producto
       const hasReviewed =
         Array.isArray(review) &&
-        review.some((rev) => rev.ProductId === product?.id && rev.emailUser === email);
+        review.some((rev) => rev.ProductId === product?.id && rev.userId === currentUser.id);
 
       setReviewButtonEnabled(allMatchProductId && !hasReviewed);
     } else {
       setReviewButtonEnabled(false);
     }
-  }, [buys, userData, review, email, product?.id]);
+  }, [buys, currentUser, review, product?.id]);
 
   /* const handleSubmit = (detailProduct) => {
     const allData = [{ ...product, email }];
@@ -295,42 +287,22 @@ export const DetailProduct = () => {
   };
 
   const submitReview = async (event) => {
+    event.preventDefault();
+    if (reviewCreated) return; // guard against double-submit
     try {
-      console.log(axios.defaults.baseURL);
-      const response = await axios.post(
-        //'https://help-community-production.up.railway.app/review/create',
-        '/review/create',
-        form,
-      );
+      const response = await axios.post('/review/create', form);
       //los datos del formulario los paso en formData (incluido los temperamentos en forma de cadena "hola, perro, paz")
       const newReview = response.data;
       setReviews([...reviews, newReview]);
 
-      dispatch(createReview(response.data));
-      //actualiza el estado global de la aplicación con el nuevo perro
       setReviewCreated(true);
-      // actualiza el estado cuando se crea el perro con exito
       alert('Review creada con éxito!!!');
       dispatch(getReviews());
     } catch (error) {
       alert(error.response.data.error);
-      //con este alert muestro los errores del back
     }
-    if (reviewCreated === false) {
-      event.preventDefault();
-    }
-
     closeReviewPopup();
   };
-
-  useEffect(() => {
-    dispatch(getReviews());
-  }, [dispatch]);
-
-  console.log('review: ', review);
-
-  // console.log("review.ProductId: ", review.ProductId)
-  console.log('buys: ', buys);
 
   const calculateAverageRating = () => {
     if (Array.isArray(review)) {

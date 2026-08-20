@@ -18,7 +18,6 @@ import {
   FILTER_BY_CATEG,
   FILTROS_PRECIO,
   RESET,
-  CREATE_REVIEW,
   GET_REVIEWS,
   GET_USERS,
 } from './action_type';
@@ -345,10 +344,6 @@ export const getUserByEmail = (email) => {
       dispatch(clearLoading()); // 🔹 corta loader
     }
   };
-};
-
-export const createReview = (review) => {
-  return { type: CREATE_REVIEW, payload: review };
 };
 
 // Acción para banear o eliminar un usuario
