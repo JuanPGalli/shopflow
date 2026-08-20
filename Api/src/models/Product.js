@@ -39,6 +39,10 @@ module.exports = (sequelize) => {
     rating: {
       type: DataTypes.REAL,
       allowNull: false,
+      validate: {
+        min: 0,
+        max: 5,
+      },
     },
 
     state: {

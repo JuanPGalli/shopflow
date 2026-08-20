@@ -305,17 +305,16 @@ export const DetailProduct = () => {
   };
 
   const calculateAverageRating = () => {
-    if (Array.isArray(review)) {
-      // Verifica si 'review' es una matriz
-      const ratings = review
-        .filter((rev) => rev.ProductId === product?.id) // Filtra las revisiones del producto actual
-        .map((rev) => rev.rating); // Extrae los puntajes
-      if (ratings.length > 0) {
-        const sum = ratings.reduce((total, rating) => total + rating, 0);
-        return (sum / ratings.length).toFixed(1); // Calcula el promedio con dos decimales
-      }
-    }
-    return 0;
+    if (!product) return 0;
+    const productReviews = Array.isArray(review)
+      ? review.filter((rev) => rev.ProductId === product.id)
+      : [];
+    // The product's DB rating is a permanent baseline data point, not just
+    // a placeholder shown until reviews exist — each new review is folded
+    // into the same average instead of overriding it.
+    const ratings = [Number(product.rating), ...productReviews.map((rev) => Number(rev.rating))];
+    const sum = ratings.reduce((total, r) => total + r, 0);
+    return (sum / ratings.length).toFixed(1);
   };
 
   const averageRating = calculateAverageRating();
@@ -343,9 +342,7 @@ export const DetailProduct = () => {
 
                 <h1>{product?.name}</h1>
                 <p>{product?.description}</p>
-                <p className={styles.ratingCard}>
-                  Rating: {averageRating === 0 ? product?.rating : averageRating}
-                </p>
+                <p className={styles.ratingCard}>Rating: {averageRating} / 5</p>
                 <div className={styles.price}>
                   <p>$ {product?.price}</p>
                 </div>
@@ -385,7 +382,7 @@ export const DetailProduct = () => {
                     </div>
                     <div className={styles.areaNombres}>
                       <h2 className={styles.nombreRev}>Puntaje: </h2>
-                      <p className={styles.numeros}>{form.rating} / 10</p>
+                      <p className={styles.numeros}>{form.rating} / 5</p>
                       {/* <input disabled={true} className={style.nombreRev} type="text" value={form.nombre} onChange={changeHandler} name="nombre" placeholder={displayName} /> */}
                       <input
                         type='range'
@@ -443,7 +440,7 @@ export const DetailProduct = () => {
                             <p className={styles.fecha}>{formattedDateTime}</p>
                           </div>
                           <p className={styles.comment}>{review.comment}</p>
-                          <p className={styles.puntaje}>Puntaje: {review.rating} / 10</p>
+                          <p className={styles.puntaje}>Puntaje: {review.rating} / 5</p>
                         </div>
                       );
                     } else {
