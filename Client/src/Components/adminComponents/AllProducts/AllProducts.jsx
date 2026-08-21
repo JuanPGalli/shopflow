@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import Pagination from '../../Pagination/Pagination';
 import CardProduct from '../CardProduct/CardProduct';
 import UsersSB from '../../SearchBar/UsersSB';
+import Loader from '../../loader/loader';
 
 export const AllProducts = () => {
   const [page, setPage] = useState(1);
@@ -45,8 +46,7 @@ export const AllProducts = () => {
   if (loading)
     return (
       <div>
-        <Loader /> // 🔹 muestra loader global
-        <h1>Cargando...</h1>
+        <Loader />
       </div>
     );
 

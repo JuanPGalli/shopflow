@@ -124,7 +124,6 @@ const Login = ({ closeLogin, showNotification }) => {
       }
     }
   };
-  console.log(auth);
 
   //Manejo de logueo/registro con google
   const handleGoogle = async (e) => {

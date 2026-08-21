@@ -12,12 +12,9 @@ export default function Buy() {
   const dispatch = useDispatch();
   const auth = useAuth();
   const email = auth.user?.email;
-  console.log(auth.user?.email);
-  console.log(email);
 
   const handleSubmit = (detailProduct) => {
     const allData = [[...cart], { email }, { total: totalAmount }];
-    console.log('allData de handleSubmit: ', allData);
     dispatch(createOrder(allData));
   };
 
@@ -25,7 +22,6 @@ export default function Buy() {
     window.localStorage.setItem('dataCart', JSON.stringify(cart));
   }, [cart]);
 
-  console.log(cart);
   const totalAmount = finalAmount(cart);
 
   return (

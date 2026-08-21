@@ -12,44 +12,44 @@
     align-content: center;
 
   }
-  
-span{
+
+.userConteiner span{
     font-size: 14px;
     font-weight: 450;
 }
-  
+
   .userData {
     display: flex;
     align-items: center;
   }
-  
+
   .iconConteiner {
     margin-right: 10px;
   }
-  
+
   .iconConteiner img {
     max-width: 50px;
     max-height: 50px;
     border-radius: 50%;
   }
-  
+
   .text {
     display: flex;
     flex-direction: column;
     text-align: left;
     font-size: 16px;
   }
-  
-  h5 {
+
+ .userConteiner h5 {
     font-size: 18px;
     margin: 0;
   }
-  
-  p {
+
+ .userConteiner p {
     font-size: 16px;
     margin: 0;
   }
-  
+
   .contenedorLista {
     display: flex;
     flex-direction: column;
@@ -57,7 +57,7 @@ span{
     position: absolute;
     margin-left: 400px;
   }
-  
+
   .listas {
     display: flex;
     align-items: right;
@@ -65,9 +65,9 @@ span{
     margin: 5px 0;
     justify-content: right;
     width: 260px;
-    
+
   }
-  
+
   .listaButton {
     background-color: #8d8a8ab0;
     color: #fff;
@@ -77,11 +77,11 @@ span{
     cursor: pointer;
     margin-right: 10px;
   }
-  
+
   .listaButton:hover {
     background-color: #007bff;
   }
-  
+
   .listaButton:disabled {
     background-color: #ccc; /* Color más oscuro cuando está deshabilitado */
     cursor:auto;
@@ -90,11 +90,11 @@ span{
   .green {
     color: green;
   }
-  
+
   .red {
     color: red;
   }
-  
+
   .blue {
     color: #0563c9;
   }

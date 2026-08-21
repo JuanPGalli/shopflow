@@ -77,11 +77,6 @@
     align-self: end;
 }
 
-a {
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 300;
-}
 
 .forgotPass{
     color: rgba(60, 110, 169, 1);
@@ -169,7 +164,7 @@ a {
     margin-top: 20px;
     height: 40px;
     width: 240px;
-    font-family: 'DM Sans', sans-serif;  
+    font-family: 'DM Sans', sans-serif;
     transition: all 0.15s;
     font-weight: 600;
 }

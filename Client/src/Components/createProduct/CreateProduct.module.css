@@ -1,5 +1,5 @@
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+.conteiner input[type="number"]::-webkit-inner-spin-button,
+.conteiner input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
@@ -208,13 +208,13 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .buyCont{
-    
+
     display: flex;
     justify-content: center;
     justify-items: end;
     gap: 80px;
     margin-top: 50px;
-    
+
 }
 
 .btnBuy{

@@ -12,7 +12,6 @@ export function UserNav() {
     const parts = name?.split(' ');
     firstPartName = parts[0]; // Actualizar el valor si name existe
   }
-  console.log(auth);
 
   return (
     <div className={styles.conteiner}>

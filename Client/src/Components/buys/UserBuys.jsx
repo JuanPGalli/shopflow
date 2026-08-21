@@ -10,13 +10,13 @@ export default function UserBuys() {
   const email = searchParams.get('email');
   const [selectedBuyIndex, setSelectedBuyIndex] = useState(-1); // -1 significa que no se ha seleccionado ningún elemento
   const [buys, setBuys] = useState([]);
-  const [isOpen, setIsOpen] = useState(true);
+  //const [isOpen, setIsOpen] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const buyData = await getAllBuysForUser(email);
+        const buyData = await dispatch(getAllBuysForUser(email));
         setBuys(buyData);
       } catch (error) {
         console.error(error);
@@ -24,7 +24,7 @@ export default function UserBuys() {
     };
 
     fetchData();
-  }, [/* dispatch, */ email]);
+  }, [dispatch, email]);
 
   const handleBuyClick = (index) => {
     setSelectedBuyIndex(index);

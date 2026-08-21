@@ -44,19 +44,6 @@ export const DetailProduct = () => {
   const [ratingError, setRatingError] = useState('');
   const [commentError, setCommentError] = useState('');
 
-  /* useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const buyData = await getAllBuysForUser(email);
-        setBuys(buyData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []); */
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -64,7 +51,7 @@ export const DetailProduct = () => {
           setBuys([]);
           return;
         }
-        const buyData = await getAllBuysForUser(email); // <-- importante: dispatch
+        const buyData = await dispatch(getAllBuysForUser(email)); // <-- importante: dispatch
         setBuys(buyData || []);
       } catch (error) {
         console.error('Error cargando compras del usuario', error);
@@ -73,7 +60,7 @@ export const DetailProduct = () => {
     };
 
     fetchData();
-  }, [/* dispatch, */ email]);
+  }, [dispatch, email]);
 
   // currentUser (from Redux, kept in sync by the getUserByEmail effect
   // above whenever `email` changes) already has everything this used
@@ -126,7 +113,7 @@ export const DetailProduct = () => {
         await dispatch(getProductByName(name));
         await dispatch(getReviews());
       } catch (error) {
-        console.log('ERROR AL OBTENER LA INFO DEL PRODUCTO');
+        console.error('ERROR AL OBTENER LA INFO DEL PRODUCTO', error);
       }
       setLoading(false);
     };
@@ -157,7 +144,6 @@ export const DetailProduct = () => {
     }
   }, [form.ProductId, product]);
 
-  console.log('form', form);
   const hancleAddtoCart = () => {
     const quantityToadd = 1;
     dispatch(addToCart(product, quantityToadd));
@@ -263,7 +249,7 @@ export const DetailProduct = () => {
     dispatch(createOrder([items, emailObj]));
   };
   const handleEditButton = () => {
-    navigate(`/products/create/${product.name}`);
+    navigate(`/admin/products/create/${product.name}`);
   };
 
   const openReviewPopup = () => {
@@ -319,10 +305,8 @@ export const DetailProduct = () => {
   return (
     <div className={styles.conteiner}>
       {loading ? (
-        // Muestra "Cargando..." durante 1 segundo
         <div className={styles.loader}>
           <Loader />
-          <h1>Cargando...</h1>
         </div>
       ) : (
         product && (

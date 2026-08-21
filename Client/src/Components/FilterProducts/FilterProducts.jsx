@@ -5,10 +5,11 @@ import {
   productsFiltrosPrecio,
   resetProducts,
 } from '../../redux/actions/action';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './FilterProducts.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../loader/loader';
+import PropTypes from 'prop-types';
 
 const FilterProducts = ({ categ = [], products = [] }) => {
   const dispatch = useDispatch();
@@ -95,8 +96,7 @@ const FilterProducts = ({ categ = [], products = [] }) => {
   if (loading)
     return (
       <div>
-        <Loader /> // 🔹 muestra loader global
-        <h1>Cargando...</h1>
+        <Loader />
       </div>
     );
 
@@ -150,6 +150,11 @@ const FilterProducts = ({ categ = [], products = [] }) => {
       </div>
     </div>
   );
+};
+
+FilterProducts.propTypes = {
+  categ: PropTypes.array,
+  products: PropTypes.array,
 };
 
 export default FilterProducts;

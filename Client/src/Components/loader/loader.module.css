@@ -1,9 +1,11 @@
 .loaderWrapper {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
   padding: 48px 0;
+  gap: 12px;
 }
 
 .spinner {
@@ -21,15 +23,9 @@
   }
 }
 
-/* Visually hidden, still readable by screen readers */
-.srOnly {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+.loadingText {
+  color: rgb(9, 110, 188);
+  font-weight: 600;
+  font-size: 15px;
+  margin: 0;
 }
