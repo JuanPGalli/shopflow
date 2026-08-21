@@ -15,7 +15,7 @@
     background-color: white;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
-    
+
 }
 
 .imagen{
@@ -24,11 +24,11 @@
     object-fit:contain;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
-    
+
 }
 
 .nombre{
-    margin-top: 5px;
+    margin: 5px 0 0 0;
     padding-left: 10px;
     padding-right: 10px;
     height: 55px;
@@ -38,11 +38,11 @@
     font-weight: 500;
     overflow: auto;
     /* background: rgb(255, 255, 255); */
-    
+
 }
 
 .descripcion{
-    /* margin-top: -10px; */
+    margin: 0;
     padding-left: 10px;
     padding-right: 10px;
     text-align: left;
@@ -55,7 +55,7 @@
 }
 
 .precio{
-    /* margin-top: -13px; */
+    margin: 0;
     padding-top: 10px;
     padding-left: 10px;
     text-align: left;
@@ -65,7 +65,7 @@
 }
 
 .categoria{
-    /* margin-top: -13px; */
+    margin: 0;
     padding-left: 10px;
     text-align: left;
     color: rgba(0, 0, 0, 0.9);
@@ -74,14 +74,14 @@
 }
 
 .link{
-   
+
     text-decoration: none;
-    
-    
+
+
 }
 
 .verMas{
-    
+
     /* margin-top: -15px; */
     padding-right: 15px;
     text-align: right;
@@ -91,7 +91,7 @@
 }
 
 .btnCont{
-    
+
     display: flex;
     justify-content: center;
     gap: 20px;
