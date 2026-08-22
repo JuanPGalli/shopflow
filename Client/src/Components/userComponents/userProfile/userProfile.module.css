@@ -1,47 +1,42 @@
 .conteiner{
-    min-height: 60vh;
-   
-    display: flex;
-    justify-content: center;
-    
+min-height: 60vh;
+display: flex;
+justify-content: center;
 }
 .center{
-    
-    width: 60%;
+width: 60%;
 }
 .userConteiner{
-    width: 100%;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    
-  
+width: 100%;
+margin-top: 20px;
+margin-bottom: 20px;
 }
 
 .userData{
-    display: flex;
-   background-color: #ffff;
-   height: 120px;
-   margin-top: 15px;
-   align-items: center;
-   justify-items: center;
-   padding: auto;
-   margin-bottom: 20px;
-   
-   
+display: flex;
+background-color: #ffff;
+height: 120px;
+margin-top: 15px;
+align-items: center;
+justify-items: center;
+padding: auto;
+margin-bottom: 20px;
+}
+
+.userConteiner p {
+margin: 0;
 }
 
 .imgUserCont{
-    width: 15%;
-    
+  width: 15%;
 }
 .imgsize{
-    
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
 }
 .imgsize img{
     object-fit: contain;
@@ -50,12 +45,10 @@
 
 }
 .text{
-    margin-left: 20px;
-   
+  margin-left: 20px;
 }
 
 .cardConteiner{
-    margin-bottom: 30px;
-    margin-top: 15px;
-
+  margin-bottom: 30px;
+  margin-top: 15px;
 }

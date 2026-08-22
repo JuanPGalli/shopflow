@@ -31,7 +31,10 @@
     border: solid rgba(0, 0, 0, 0.168);
     background-color: #ffff;
     padding: 5px;
-
+    margin: 0;
+}
+.counter p{
+  margin: 0;
 }
 .btnCount{
     border: none;
@@ -47,6 +50,7 @@
     font-size: 1.3em;
     color: rgba(0, 0, 0, 0.546);
     background-color: #ffff;
+    margin: 0;
 }
 .btnDelete{
     border: none;

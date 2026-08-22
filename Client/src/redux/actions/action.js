@@ -28,7 +28,7 @@ import {
 // instead: import.meta.env.DEV / import.meta.env.MODE.
 axios.defaults.baseURL = import.meta.env.DEV
   ? 'http://localhost:3001'
-  : 'https://help-community-production.up.railway.app';
+  : import.meta.env.VITE_API_URL || 'https://help-community-production.up.railway.app';
 
 // Attach the caller's Firebase ID token to every request, so the
 // backend's verifyToken middleware can identify who's actually
