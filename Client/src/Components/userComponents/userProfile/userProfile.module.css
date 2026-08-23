@@ -29,6 +29,9 @@ margin: 0;
 
 .imgUserCont{
   width: 15%;
+  flex-shrink: 0;
+  width: 90px;
+  height: 90px;
 }
 .imgsize{
   height: 100%;
@@ -37,12 +40,15 @@ margin: 0;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
+  overflow: hidden;
 }
 .imgsize img{
-    object-fit: contain;
-    height: 80%;
-    width: 80%;
-
+  object-fit: contain;
+  height: 80%;
+  width: 80%;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
 }
 .text{
   margin-left: 20px;
