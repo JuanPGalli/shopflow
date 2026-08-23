@@ -37,15 +37,15 @@ const createOrder = async (req, res) => {
       ? `${process.env.NGROK_URL.replace(/\/$/, '')}/payment/webhook?email=${encodeURIComponent(
           email,
         )}`
-      : `https://shopflow-beta-ten.vercel.app/payment/webhook?email=${encodeURIComponent(email)}`;
+      : `${process.env.BACKEND_URL}/payment/webhook?email=${encodeURIComponent(email)}`;
 
     const result = await mercadopago.preferences.create({
       items,
       back_urls: {
         success:
-          process.env.BACK_URL_SUCCESS || 'https://shopflow-beta-ten.vercel.app/shoppingCart',
-        failure: process.env.BACK_URL_FAILURE || 'https://shopflow-beta-ten.vercel.app/',
-        pending: process.env.BACK_URL_PENDING || 'https://shopflow-beta-ten.vercel.app/',
+          process.env.BACK_URL_SUCCESS || 'https://shopflow-ecommerce-demo.vercel.app/shoppingCart',
+        failure: process.env.BACK_URL_FAILURE || 'https://shopflow-ecommerce-demo.vercel.app/',
+        pending: process.env.BACK_URL_PENDING || 'https://shopflow-ecommerce-demo.vercel.app/',
       },
       /* auto_return: 'approved', */
       metadata: {
