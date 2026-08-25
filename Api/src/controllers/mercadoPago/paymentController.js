@@ -42,8 +42,9 @@ const createOrder = async (req, res) => {
     const result = await mercadopago.preferences.create({
       items,
       back_urls: {
-        success:
-          process.env.BACK_URL_SUCCESS || 'https://shopflow-ecommerce-demo.vercel.app/shoppingCart',
+        success: `${
+          process.env.BACK_URL_SUCCESS || 'https://shopflow-ecommerce-demo.vercel.app/shoppingCart'
+        }?paid=true`,
         failure: process.env.BACK_URL_FAILURE || 'https://shopflow-ecommerce-demo.vercel.app/',
         pending: process.env.BACK_URL_PENDING || 'https://shopflow-ecommerce-demo.vercel.app/',
       },
