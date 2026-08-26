@@ -1,16 +1,28 @@
 import { Link } from 'react-router-dom';
 import styles from './Product.module.css';
-import { addToCart } from '../../redux/actions/action';
+import { addToCart, createOrder } from '../../redux/actions/action';
 import { useDispatch } from 'react-redux';
+import { useAuth } from '../../context/AuthContext';
 
 export const Product = (props) => {
-  const { name, description, image, price, category } = props;
+  const { id, name, description, image, price, category } = props;
   const dispatch = useDispatch();
+  const auth = useAuth();
+  const email = auth.user?.email;
 
   const handleAddtoCart = (e) => {
     e.stopPropagation(); // 🔹 previene navegación a /detail/${name} si está dentro de Link
     const quantityToadd = 1;
     dispatch(addToCart(props, quantityToadd));
+  };
+  const handleBuyNow = (e) => {
+    e.stopPropagation();
+    if (!email) {
+      alert('Inicia sesión para comprar.');
+      return;
+    }
+    const items = [{ id, name, price, image, quantity: 1 }];
+    dispatch(createOrder([items, { email }]));
   };
 
   const capitalizeFirstLetter = (str) => {
@@ -40,7 +52,9 @@ export const Product = (props) => {
           Añadir al carrito
         </button>
 
-        <button className={styles.btnBuy}>Comprar</button>
+        <button className={styles.btnBuy} onClick={handleBuyNow}>
+          Comprar
+        </button>
       </div>
     </div>
   );
