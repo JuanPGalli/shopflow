@@ -5,7 +5,7 @@ import styles from './Login.module.css';
 import { useAuth } from '../../context/AuthContext';
 import { useState } from 'react';
 import { validateLogin, validateRegister } from './validateLogin';
-import { postUser, getUserByEmail } from '../../redux/actions/action';
+import { postUser, getUserByEmail, postWelcomeEmail } from '../../redux/actions/action';
 
 const Login = ({ closeLogin, showNotification }) => {
   const auth = useAuth();
@@ -75,6 +75,7 @@ const Login = ({ closeLogin, showNotification }) => {
       };
       await dispatch(postUser(userToPost));
       await dispatch(getUserByEmail(userToPost.email));
+      dispatch(postWelcomeEmail({ name: nameRegister, email: emailRegister }));
       showNotification('regSuccess');
       closeLogin();
     } catch (error) {
