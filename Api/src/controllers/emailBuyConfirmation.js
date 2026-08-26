@@ -1,8 +1,8 @@
-const transporter = require("../config/nodemailer");
+const transporter = require('../config/nodemailer');
 
 const emailBuyConfirmation = async (emailUser, items) => {
-  console.log("EMAIL_NODEMAILER", emailUser);
-  console.log("ITEMS_NODEMAILER", items);
+  console.log('EMAIL_NODEMAILER', emailUser);
+  console.log('ITEMS_NODEMAILER', items);
   // Crear una lista de detalles de compra para cada producto
   const productDetails = items.map((item) => {
     return `
@@ -21,16 +21,16 @@ const emailBuyConfirmation = async (emailUser, items) => {
   });
 
   // Unir los detalles de compra en un solo bloque HTML
-  const purchaseDetailsHTML = productDetails.join("<br><br>");
+  const purchaseDetailsHTML = productDetails.join('<br><br>');
 
   await transporter.sendMail({
-    from: "message sent from <helpcommunityarg@gmail.com>",
+    from: `ShopFlow <${process.env.EMAIL_USER}>`,
     to: emailUser,
-    subject: `Su compra en Help Community Argentina`,
+    subject: `Confirmación de Compra - ShopFlow`,
     html: `
         <div style="font-family: Arial, sans-serif; padding: 20px;">
         <p style="font-size: 18px;">Estimado Cliente,</p>
-        <p style="font-size: 16px;">Lo saluda atentamente el equipo de Help Community Argentina.</p>
+        <p style="font-size: 16px;">Lo saluda atentamente el equipo de ShopFlow.</p>
         <p style="font-size: 16px;">Su compra ha sido procesada con éxito.</p>
         <p style="font-size: 16px;">Detalles de la compra:</p>
         ${purchaseDetailsHTML}

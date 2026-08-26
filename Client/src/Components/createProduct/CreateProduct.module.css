@@ -6,7 +6,8 @@
 
 .conteiner{
     height: 99vh;
-    width: 180vh;
+    width: 100%;
+    max-width: 1400px;
     display: flex;
     justify-content: center;
     margin-top: 3rem;

@@ -2,15 +2,14 @@ const { User } = require('../db');
 const transporter = require('../config/nodemailer');
 
 //Mail de confirmación de registro en la página.
-const postNodemailerController = async (email) => {
+const postNodemailerController = async (name, email) => {
   await transporter.sendMail({
     from: `ShopFlow <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: `Te has registrado con éxito`,
+    subject: `Bienvenido a ShopFlow, ${name}!`,
     html: `
      <div style="font-family: Arial, sans-serif; padding: 20px;">
-        <h1 style="font-size: 24px; color: #007bff;">¡Bienvenido a ShopFlow!</h1>
-        <p style="font-size: 16px;">Estimado usuario,</p>
+        <h1 style="font-size: 24px; color: #007bff;">¡Bienvenido a ShopFlow, ${name}!</h1>
         <p style="font-size: 16px;">Tu solicitud de registro ha sido procesada con éxito.</p>
         <p style="font-size: 16px;">Ahora eres parte de nuestra comunidad y puedes disfrutar de todos los beneficios que ofrecemos. ¡Esperamos que tengas una experiencia increíble con nosotros!</p>
         <p style="font-size: 16px;">Si tienes alguna pregunta o necesitas ayuda, no dudes en ponerte en contacto con nuestro equipo de soporte. Estamos aquí para ayudarte.</p>

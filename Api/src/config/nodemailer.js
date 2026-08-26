@@ -11,9 +11,9 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-//transporter
-//  .verify()
-//  .then(() => console.log('transport creado con exito'))
-//  .catch((error) => console.error(error));
+transporter
+  .verify()
+  .then(() => console.log('✅ SMTP transporter connected successfully'))
+  .catch((error) => console.error('❌ SMTP transporter error:', error));
 
 module.exports = transporter;

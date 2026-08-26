@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import styles from './sideBarAdmin.module.css';
-import { FaUsers, FaBox, FaLayerGroup, FaChartBar, FaEnvelope, FaShoppingBag } from 'react-icons/fa';
+import {
+  FaUsers,
+  FaBox,
+  /* FaLayerGroup, */
+  FaChartBar,
+  FaEnvelope,
+  FaShoppingBag,
+} from 'react-icons/fa';
 
 const SideBarAdmin = () => {
   const [expanded, setExpanded] = useState(false);
-  const [selectedItem, setSelectedItem] = useState('Dashboard'); // Puedes establecer el elemento inicialmente seleccionado
 
   const toggleSidebar = () => {
     setExpanded(!expanded);
-  };
-
-  const handleItemClick = (itemName) => {
-    setSelectedItem(itemName);
   };
 
   return (
@@ -20,10 +23,12 @@ const SideBarAdmin = () => {
         {expanded ? <span>&larr;</span> : <span>&rarr;</span>}
       </div>
       <ul className={styles.menu}>
-      <li>
-        <a href="/admin/dashboard"   onClick={() => handleItemClick('Dashboard')}
-            className={selectedItem === 'Dashboard' ? styles.selected : ''}>
-        {expanded ? (
+        <li>
+          <NavLink
+            to='/admin/dashboard'
+            className={({ isActive }) => (isActive ? styles.selected : '')}
+          >
+            {expanded ? (
               <>
                 <FaChartBar size={20} />
                 <span id={styles.blanco}>Dashboard</span>
@@ -31,43 +36,44 @@ const SideBarAdmin = () => {
             ) : (
               <FaChartBar size={20} />
             )}
-          </a>
+          </NavLink>
         </li>
 
         <li>
-          <a href="/admin/users" onClick={() => handleItemClick('Usuarios')}
-            className={selectedItem === 'Usuarios' ? styles.selected : ''}
+          <NavLink
+            to='/admin/users'
+            className={({ isActive }) => (isActive ? styles.selected : '')}
           >
-          {expanded ? (
+            {expanded ? (
               <>
                 <FaUsers size={20} />
-                <span id={styles.blanco} >Usuarios</span>
+                <span id={styles.blanco}>Usuarios</span>
               </>
             ) : (
               <FaUsers size={20} />
             )}
-          </a>
+          </NavLink>
         </li>
 
         <li>
-          <a href="/admin/allbuys" onClick={() => handleItemClick('Ventas')}
-            className={selectedItem === 'Ventas' ? styles.selected : ''}
+          <NavLink
+            to='/admin/allbuys'
+            className={({ isActive }) => (isActive ? styles.selected : '')}
           >
-          {expanded ? (
+            {expanded ? (
               <>
                 <FaShoppingBag size={20} />
-                <span id={styles.blanco} >Ventas</span>
+                <span id={styles.blanco}>Ventas</span>
               </>
             ) : (
               <FaShoppingBag size={20} />
             )}
-          </a>
+          </NavLink>
         </li>
 
         <li>
-        <a href="#"   onClick={() => handleItemClick('Productos')}
-            className={selectedItem === 'Productos' ? styles.selected : ''}>
-        {expanded ? (
+          <NavLink to='#' className={({ isActive }) => (isActive ? styles.selected : '')}>
+            {expanded ? (
               <>
                 <FaBox size={20} />
                 <span id={styles.blanco}>Productos</span>
@@ -75,27 +81,33 @@ const SideBarAdmin = () => {
             ) : (
               <FaBox size={20} />
             )}
-          </a>
+          </NavLink>
           <ul className={styles.submenu}>
             <li>
-              <a href="/admin/products/create"
-              onClick={() => handleItemClick('Crear producto')}
-              className={selectedItem === 'Crear producto' ? styles.selected : ''}
-              >Crear producto</a>
+              <NavLink
+                to='/admin/products/create'
+                className={({ isActive }) => (isActive ? styles.selected : '')}
+              >
+                Crear producto
+              </NavLink>
             </li>
             <li>
-              <a href="/admin/allProducts"
-              onClick={() => handleItemClick('Editar producto')}
-              className={selectedItem === 'Editar producto' ? styles.selected : ''}
-              >Editar producto</a>
+              <NavLink
+                to='/admin/allProducts'
+                className={({ isActive }) => (isActive ? styles.selected : '')}
+              >
+                Editar producto
+              </NavLink>
             </li>
           </ul>
         </li>
-        
+
         <li>
-        <a href="/admin/mailing"   onClick={() => handleItemClick('Mailing')}
-            className={selectedItem === 'Mailing' ? styles.selected : ''}>
-        {expanded ? (
+          <NavLink
+            to='/admin/mailing'
+            className={({ isActive }) => (isActive ? styles.selected : '')}
+          >
+            {expanded ? (
               <>
                 <FaEnvelope size={20} />
                 <span id={styles.blanco}>Mailing</span>
@@ -103,7 +115,7 @@ const SideBarAdmin = () => {
             ) : (
               <FaEnvelope size={20} />
             )}
-          </a>
+          </NavLink>
         </li>
       </ul>
     </div>
