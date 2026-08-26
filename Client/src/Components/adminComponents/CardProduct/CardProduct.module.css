@@ -47,6 +47,9 @@
     width: 100%;
     gap: 12px;
     min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .infoAndButton{
