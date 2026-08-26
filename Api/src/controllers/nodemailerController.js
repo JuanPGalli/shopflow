@@ -41,6 +41,7 @@ const postMailingController = async (subject, message) => {
     console.log('Correos electrónicos enviados a todos los usuarios.');
   } catch (error) {
     console.error('Error al enviar correos electrónicos:', error);
+    throw error;
   }
 };
 
