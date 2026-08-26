@@ -48,7 +48,7 @@ const createOrder = async (req, res) => {
         failure: process.env.BACK_URL_FAILURE || 'https://shopflow-ecommerce-demo.vercel.app/',
         pending: process.env.BACK_URL_PENDING || 'https://shopflow-ecommerce-demo.vercel.app/',
       },
-      /* auto_return: 'approved', */
+      auto_return: 'approved',
       metadata: {
         email,
         user_id: userId,
