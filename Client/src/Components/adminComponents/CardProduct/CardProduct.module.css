@@ -1,6 +1,6 @@
 .productConteiner{
     min-width: 750px;
-    
+
 }
 
 .productData{
@@ -44,8 +44,9 @@
     justify-content: space-between;
     margin-bottom: 0.3rem;
     /* background-color: red; */
-    width: 630px;
-
+    width: 100%;
+    gap: 12px;
+    min-width: 0;
 }
 
 .infoAndButton{
