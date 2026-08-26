@@ -192,6 +192,17 @@ export function postMailing(payload) {
   };
 }
 
+export function postWelcomeEmail(payload) {
+  return async function () {
+    try {
+      await axios.post('/admin', payload); // { name, email } — root of nodemailerRouter, public route
+    } catch (error) {
+      // A failed welcome email shouldn't block registration — log only.
+      console.error('Error sending welcome email:', error);
+    }
+  };
+}
+
 export const addToCart = (product, quantity) => {
   return {
     type: ADD_TO_CART,
