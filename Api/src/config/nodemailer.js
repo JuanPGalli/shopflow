@@ -9,6 +9,7 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  family: 4, // forces IPv4 — avoids ETIMEDOUT on hosts with broken IPv6 routing (common on Railway)
 });
 
 transporter
