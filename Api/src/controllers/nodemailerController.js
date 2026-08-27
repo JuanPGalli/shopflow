@@ -24,24 +24,24 @@ const postNodemailerController = async (name, email) => {
 //Mail masivos a usuarios.
 
 const postMailingController = async (subject, message) => {
-  try {
-    const users = await User.findAll();
-    console.log(users);
+  const users = await User.findAll();
+  const results = { sent: 0, failed: [] };
 
-    for (const user of users) {
+  for (const user of users) {
+    try {
       await sendMail({
         to: user.email,
-        subject: subject,
+        subject,
         html: message,
       });
-      console.log(`Correo enviado a ${user.name} (${user.email})`);
-    }
-
-    console.log('Correos electrónicos enviados a todos los usuarios.');
-  } catch (error) {
-    console.error('Error al enviar correos electrónicos:', error);
-    throw error;
+      results += 1;
+    } catch (error) {}
+    console.log(`Error al enviar a ${user.email}`, error.message);
+    results.push.failed(user.email);
   }
+
+  console.log(`Mailing: ${results.sent} enviados, ${results.failed.length} fallidos.`);
+  return results;
 };
 
 module.exports = { postNodemailerController, postMailingController };
