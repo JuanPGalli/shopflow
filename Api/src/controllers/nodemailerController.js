@@ -3,8 +3,7 @@ const transporter = require('../config/nodemailer');
 
 //Mail de confirmación de registro en la página.
 const postNodemailerController = async (name, email) => {
-  await transporter.sendMail({
-    from: `ShopFlow <${process.env.EMAIL_USER}>`,
+  await sendMail({
     to: email,
     subject: `Bienvenido a ShopFlow, ${name}!`,
     html: `
@@ -29,8 +28,7 @@ const postMailingController = async (subject, message) => {
     console.log(users);
 
     for (const user of users) {
-      await transporter.sendMail({
-        from: `ShopFlow <${process.env.EMAIL_USER}>`,
+      await sendMail({
         to: user.email,
         subject: subject,
         html: message,

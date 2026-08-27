@@ -23,8 +23,7 @@ const emailBuyConfirmation = async (emailUser, items) => {
   // Unir los detalles de compra en un solo bloque HTML
   const purchaseDetailsHTML = productDetails.join('<br><br>');
 
-  await transporter.sendMail({
-    from: `ShopFlow <${process.env.EMAIL_USER}>`,
+  await sendMail({
     to: emailUser,
     subject: `Confirmación de Compra - ShopFlow`,
     html: `
