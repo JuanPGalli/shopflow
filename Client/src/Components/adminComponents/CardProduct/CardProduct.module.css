@@ -1,6 +1,6 @@
 .productConteiner{
-    min-width: 750px;
-
+    width: 100%;
+    max-width: 750px;
 }
 
 .productData{
