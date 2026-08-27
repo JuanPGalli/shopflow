@@ -4,17 +4,29 @@ import { CardInfoUser } from '../cardInfo/cardInfoUser';
 import Login from '../../Login/Login';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 
 export default function UserProfile() {
   const auth = useAuth();
-  console.log(auth.user);
   const email = auth.user?.email;
   const displayName = auth.user?.displayName;
   const photoURL = auth.user?.photoURL;
 
   const [userAdmin, setUserAdmin] = useState(false);
+
+  const closeLogin = () => {}; // nothing to close here — once auth succeeds,
+  // `email` becomes truthy and this component naturally swaps to showing
+  // the profile instead of <Login/> on its own re-render.
+
+  const showNotification = (type) => {
+    const messages = {
+      googleSuccess: '¡Ingreso con Google exitoso!',
+      logSuccess: 'Sesión iniciada correctamente',
+      regSuccess: '¡Registro exitoso! Bienvenido a ShopFlow',
+    };
+    toast.success(messages[type] || '¡Listo!');
+  };
 
   useEffect(() => {
     // Realiza una solicitud al servidor para obtener la lista de usuarios
@@ -98,7 +110,7 @@ export default function UserProfile() {
           </div>
         </div>
       ) : (
-        <Login />
+        <Login closeLogin={closeLogin} showNotification={showNotification} />
       )}
     </div>
   );

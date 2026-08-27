@@ -1,5 +1,6 @@
 const { User } = require('../db');
-const transporter = require('../config/nodemailer');
+/* const transporter = require('../config/nodemailer'); */
+const { sendMail } = require('../config/resend');
 
 //Mail de confirmación de registro en la página.
 const postNodemailerController = async (name, email) => {

@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+/* const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
@@ -17,4 +17,4 @@ transporter
   .then(() => console.log('✅ SMTP transporter connected successfully'))
   .catch((error) => console.error('❌ SMTP transporter error:', error));
 
-module.exports = transporter;
+module.exports = transporter; */

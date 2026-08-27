@@ -1,4 +1,5 @@
-const transporter = require('../config/nodemailer');
+/* const transporter = require('../config/nodemailer'); */
+const { sendMail } = require('../config/resend');
 
 const emailBuyConfirmation = async (emailUser, items) => {
   console.log('EMAIL_NODEMAILER', emailUser);
