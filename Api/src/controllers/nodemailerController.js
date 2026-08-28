@@ -1,5 +1,4 @@
 const { User } = require('../db');
-/* const transporter = require('../config/nodemailer'); */
 const { sendMail } = require('../config/resend');
 
 //Mail de confirmación de registro en la página.
@@ -34,10 +33,11 @@ const postMailingController = async (subject, message) => {
         subject,
         html: message,
       });
-      results += 1;
-    } catch (error) {}
-    console.log(`Error al enviar a ${user.email}`, error.message);
-    results.push.failed(user.email);
+      results.sent += 1;
+    } catch (error) {
+      console.log(`Error al enviar a ${user.email}:`, error.message);
+      results.failed.push(user.email);
+    }
   }
 
   console.log(`Mailing: ${results.sent} enviados, ${results.failed.length} fallidos.`);

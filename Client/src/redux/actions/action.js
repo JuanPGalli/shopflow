@@ -179,15 +179,12 @@ export function postUser(payload) {
 }
 
 export function postMailing(payload) {
-  return async function (/* dispatch */) {
+  return async function () {
     try {
-      //dispatch(setLoading()); // 🔹 inicia loader
       const response = await axios.post('/admin/mailing', payload);
       return response;
     } catch (error) {
       return error.message;
-    } finally {
-      //dispatch(clearLoading()); // 🔹 corta loader
     }
   };
 }

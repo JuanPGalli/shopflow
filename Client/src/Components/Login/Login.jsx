@@ -351,7 +351,7 @@ const Login = ({ closeLogin, showNotification }) => {
 
 export default Login;
 
-/* Login.propTypes = {
+Login.propTypes = {
   closeLogin: PropTypes.func.isRequired,
   showNotification: PropTypes.func.isRequired,
-}; */
+};
